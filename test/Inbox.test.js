@@ -4,8 +4,28 @@ const Web3 = require('web3'); //a constructor function
 //local instance of web3
 const web3 = new Web3(ganache.provider());
 
+beforeEach(() => {
+    //Get a list of all accounts
+    web3.eth.getAccounts()
+        .then(fetchedAccounts => {
+            console.log(fetchedAccounts);
+        });
+
+    //Use on eof those accounts to deploy
+    //the contract
+
+});
+
+describe('Inbox', () =>{ //So that the beforeEach statement atleast runs one time
+    it('deploys a contract', () => {
+
+    });
+});
+
+
+
 //Test with Mocha
-class Car{
+/* class Car{
     park(){
         return 'stopped';
     }
@@ -13,9 +33,9 @@ class Car{
     drive(){
         return 'vroom';
     }
-}
+} */
 //Mocha
-let car; //To make it accessible to the it-statements
+/* let car; //To make it accessible to the it-statements
 
 beforeEach(()=> {
     car =  new Car();
@@ -31,4 +51,4 @@ describe('Car', () => { //Arrowfunction with all test statements(it) for class '
         //const car =  new Car();
         assert.equal(car.drive(), 'vroom');
     });
-});
+}); */ //Shift+Alt+A
