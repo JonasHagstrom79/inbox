@@ -3,22 +3,27 @@ const ganache = require('ganache-cli'); //local ethereum test network
 const Web3 = require('web3'); //a constructor function
 //local instance of web3
 const web3 = new Web3(ganache.provider());
+//Gets the contract from compile.js
+const { interface, bytecode } = require('../compile');
 
-beforeEach(() => {
+
+let accounts;
+let inbox;
+
+beforeEach(async () => {
     //Get a list of all accounts
-    web3.eth.getAccounts()
-        .then(fetchedAccounts => {
-            console.log(fetchedAccounts);
-        });
+    accounts = await web3.eth.getAccounts();
 
-    //Use on eof those accounts to deploy
+    //Use one of those accounts to deploy
     //the contract
-
+    inbox = await new web3.eth.Contract(JSON.parse(interface)) //C is a constructor
+    .deploy({ data: bytecode, arguments: ['Hi there!']}) //deploys on the contract above, data and an array(inbox.sol)
+    .send({ from: accounts[0], gas: '1000000'})
 });
 
 describe('Inbox', () =>{ //So that the beforeEach statement atleast runs one time
     it('deploys a contract', () => {
-
+        console.log(inbox);
     });
 });
 
