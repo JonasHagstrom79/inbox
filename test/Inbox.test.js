@@ -9,6 +9,7 @@ const { interface, bytecode } = require('../compile');
 
 let accounts;
 let inbox;
+//const INITIAL_STRING = 'Hi there!' //To use instead of "Hi there!"
 
 beforeEach(async () => {
     //Get a list of all accounts
@@ -26,7 +27,19 @@ beforeEach(async () => {
 
 describe('Inbox', () =>{ //So that the beforeEach statement atleast runs one time
     it('deploys a contract', () => {
-        console.log(inbox);
+        //console.log(inbox);//Writes out the info
+        assert.ok(inbox.options.address); //Is this a defined value? Yes the thest will pass, otherwise it will fail
+    });
+
+    it('has a default message', async () =>{
+        const message = await inbox.methods.message().call();
+        assert.equal(message, ''); //assert te value of the message
+    });
+
+    it('can change the message', async ()=>{
+        await inbox.methods.setMessage('bye').send({ from: accounts[0]}); //initial setup to send the message, who is paying gas for this
+        const message = await inbox.methods.message().call();
+        assert.equal(message, 'bye');
     });
 });
 
