@@ -10,3 +10,22 @@ const provider = new HDWalletProvider(
 );
 //connection to the network
 const web3 = new Web3(provider);
+
+//to be able ro make 2 async calls
+const deploy = async () =>{
+    //list of all unlocked accounts in the wallet
+    const accounts = await web3.eth.getAccounts();
+    //address and public key that is deploying the contract
+    console.log('Attempting to deploy from account', accounts[0]);
+    //Contract deployment statement
+    const result = await new web3.eth.Contract(JSON.parse(interface))
+    //the bytecode and anyinitial arguments that we want to pass to the contract
+    .deploy({ data: bytecode, arguments: ['Hi there!'] })
+    //sends the transaction to the network
+    .send({ gas: '1000000', from: accounts[0] });
+    //shows the adress that our contract was deployed to
+    console.log('Contract deployed to', result.options.address);
+    //Preventing a hanging deployment
+    provider.engine.stop()
+};
+deploy();
